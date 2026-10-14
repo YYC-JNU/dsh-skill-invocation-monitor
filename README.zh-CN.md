@@ -1,10 +1,12 @@
-# @yyc-jnu/dsh-skill-invocation-monitor
+<h1 align="center">dsh-skill-invocation-monitor</h1>
 
-[English](README.md) | **简体中文**
+<p align="center"><a href="./README.md">English</a> | <b>简体中文</b></p>
 
-[![npm version](https://img.shields.io/npm/v/@yyc-jnu/dsh-skill-invocation-monitor?color=4a6cf7)](https://www.npmjs.com/package/@yyc-jnu/dsh-skill-invocation-monitor)
-[![license](https://img.shields.io/npm/l/@yyc-jnu/dsh-skill-invocation-monitor)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/YYC-JNU/dsh-skill-invocation-monitor?style=social)](https://github.com/YYC-JNU/dsh-skill-invocation-monitor)
+<p align="center">
+  <a href="https://www.npmjs.com/package/@yyc-jnu/dsh-skill-invocation-monitor"><img src="https://img.shields.io/npm/v/@yyc-jnu/dsh-skill-invocation-monitor?color=4a6cf7" alt="npm version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/npm/l/@yyc-jnu/dsh-skill-invocation-monitor" alt="license"></a>
+  <a href="https://github.com/YYC-JNU/dsh-skill-invocation-monitor"><img src="https://img.shields.io/github/stars/YYC-JNU/dsh-skill-invocation-monitor?style=social" alt="GitHub stars"></a>
+</p>
 
 > 一个**只读**的 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（DSH）插件，把技能调用摊在一屏里：
 > 当前有哪些 Agent 在跑、每个正在调用哪个 Skill、是运行中 / 已完成 / 失败、已经跑了多久——在 Web GUI 侧边栏实时可见。

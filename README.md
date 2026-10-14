@@ -1,10 +1,12 @@
-# @yyc-jnu/dsh-skill-invocation-monitor
+<h1 align="center">dsh-skill-invocation-monitor</h1>
 
-**English** | [简体中文](README.zh-CN.md)
+<p align="center"><b>English</b> | <a href="./README.zh-CN.md">简体中文</a></p>
 
-[![npm version](https://img.shields.io/npm/v/@yyc-jnu/dsh-skill-invocation-monitor?color=4a6cf7)](https://www.npmjs.com/package/@yyc-jnu/dsh-skill-invocation-monitor)
-[![license](https://img.shields.io/npm/l/@yyc-jnu/dsh-skill-invocation-monitor)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/YYC-JNU/dsh-skill-invocation-monitor?style=social)](https://github.com/YYC-JNU/dsh-skill-invocation-monitor)
+<p align="center">
+  <a href="https://www.npmjs.com/package/@yyc-jnu/dsh-skill-invocation-monitor"><img src="https://img.shields.io/npm/v/@yyc-jnu/dsh-skill-invocation-monitor?color=4a6cf7" alt="npm version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/npm/l/@yyc-jnu/dsh-skill-invocation-monitor" alt="license"></a>
+  <a href="https://github.com/YYC-JNU/dsh-skill-invocation-monitor"><img src="https://img.shields.io/github/stars/YYC-JNU/dsh-skill-invocation-monitor?style=social" alt="GitHub stars"></a>
+</p>
 
 > A **read-only** [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH) plugin that puts
 > every skill invocation on one screen: which Agents are running, which Skill each one is calling,

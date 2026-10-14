@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Skill-Invocation-Monitor · 运行流程",
+    "locale": "zh-CN",
+    "output": "docs/skill-monitor-flow.html",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [930, 920],
+    "views": [
+      { "id": "observed", "label": "调用被观察", "focus": ["agent", "pipeline", "monitor", "memory"], "note": "pre-execute 记下开始，result 结算结果与时长；观察者从不改写派发。" },
+      { "id": "lifecycle", "label": "状态与清理", "focus": ["agent", "monitor", "memory"], "note": "agent/status 提供活动 Agent，agent/disposed 让记录随 Agent 一起消失。" },
+      { "id": "read-out", "label": "被读到", "focus": ["user", "client", "route", "monitor"], "note": "整条读路径只有一条 GET 路由，没有任何写路径。" }
+    ]
+  },
+  "participants": [
+    { "id": "agent", "type": "external", "label": "Agent 会话", "sublabel": "发起 skill 调用" },
+    { "id": "pipeline", "type": "backend", "label": "ToolRuntime", "sublabel": "pre-execute · result" },
+    { "id": "monitor", "type": "backend", "label": "宿主插件", "sublabel": "只读 · 内存态" },
+    { "id": "memory", "type": "database", "label": "内存记录", "sublabel": "上限 200 · 10min 过期" },
+    { "id": "route", "type": "backend", "label": "WebServer 路由", "sublabel": "exact · 仅 GET" },
+    { "id": "client", "type": "frontend", "label": "客户端半", "sublabel": "共享轮询 1500ms" },
+    { "id": "user", "type": "external", "label": "使用者", "sublabel": "侧边栏入口" }
+  ],
+  "segments": [
+    { "from": 150, "to": 445, "label": "调用被观察" },
+    { "from": 460, "to": 568, "label": "状态与清理" },
+    { "from": 584, "to": 802, "label": "被读到" }
+  ],
+  "messages": [
+    { "from": "agent", "to": "pipeline", "y": 180, "label": "skill(name: \"archify\")", "variant": "emphasis" },
+    { "from": "pipeline", "to": "monitor", "y": 215, "label": "tools/pre-execute · waterfall", "variant": "emphasis" },
+    { "from": "monitor", "to": "memory", "y": 250, "label": "记 running + startedAt", "variant": "default" },
+    { "from": "monitor", "to": "pipeline", "y": 285, "label": "原样返回 next()", "variant": "return" },
+    { "from": "pipeline", "to": "agent", "y": 320, "label": "派发 skill 工具", "variant": "default" },
+    { "from": "agent", "to": "pipeline", "y": 355, "label": "结果 / 未找到错误", "variant": "return" },
+    { "from": "pipeline", "to": "monitor", "y": 390, "label": "tools/result · emit", "variant": "emphasis" },
+    { "from": "monitor", "to": "memory", "y": 425, "label": "结算 done / failed + 时长", "variant": "default" },
+    { "from": "agent", "to": "monitor", "y": 480, "label": "agent/status · running ⇄ idle", "variant": "dashed" },
+    { "from": "agent", "to": "monitor", "y": 515, "label": "agent/disposed", "variant": "dashed" },
+    { "from": "monitor", "to": "memory", "y": 550, "label": "清理该 Agent 的记录", "variant": "default" },
+    { "from": "user", "to": "client", "y": 600, "label": "点「技能监控」入口", "variant": "default" },
+    { "from": "client", "to": "route", "y": 635, "label": "GET /api/plugins/skill-monitor/state", "variant": "emphasis" },
+    { "from": "route", "to": "monitor", "y": 670, "label": "读快照（只读）", "variant": "default" },
+    { "from": "monitor", "to": "route", "y": 705, "label": "JSON 快照", "variant": "return" },
+    { "from": "route", "to": "client", "y": 740, "label": "200 快照 · 无写路径", "variant": "return" },
+    { "from": "client", "to": "user", "y": 775, "label": "徽标计数 + 明细行 · 1.5s 刷新", "variant": "return" }
+  ],
+  "activations": [
+    { "participant": "agent", "from": 170, "to": 196, "type": "external" },
+    { "participant": "pipeline", "from": 205, "to": 400, "type": "backend" },
+    { "participant": "monitor", "from": 205, "to": 440, "type": "backend" },
+    { "participant": "memory", "from": 240, "to": 440, "type": "database" },
+    { "participant": "agent", "from": 312, "to": 368, "type": "external" },
+    { "participant": "agent", "from": 470, "to": 522, "type": "external" },
+    { "participant": "monitor", "from": 540, "to": 562, "type": "backend" },
+    { "participant": "memory", "from": 540, "to": 562, "type": "database" },
+    { "participant": "client", "from": 592, "to": 788, "type": "frontend" },
+    { "participant": "route", "from": 594, "to": 752, "type": "backend" },
+    { "participant": "monitor", "from": 590, "to": 712, "type": "backend" },
+    { "participant": "memory", "from": 660, "to": 712, "type": "database" },
+    { "participant": "user", "from": 766, "to": 788, "type": "external" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "只读边界", "items": ["不注册 Tool，ctx 不新增成员", "pre-execute 只原样返回 next()", "观察器抛错也不影响派发"] },
+    { "dot": "amber", "title": "有界内存", "items": ["记录上限 200，先淘汰已结算", "已结算记录保留 10 分钟", "15 分钟无结果 → 未观测到结果"] },
+    { "dot": "emerald", "title": "单一读路径", "items": ["一条 exact GET，无写路径", "客户端共享轮询 1500ms", "两个 Slot：入口徽标 + 主区明细"] }
+  ]
+}

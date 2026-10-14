@@ -1,0 +1,21 @@
+# 依赖与构建产物
+# 本插件是手写 ESM 的普通 JavaScript，没有构建步骤，lib/ 就是源码本身；
+# 这几条是防御性规则，防止以后有人加了依赖或构建流程时把它们提交进来。
+node_modules/
+dist/
+build/
+
+# 本地凭据与环境文件：永不入库
+.env
+.env.*
+.npmrc
+*.log
+
+# archify 生成的图产物与一次性浏览器校验证据。
+# 它们都可以由 docs/skill-monitor-flow.json 这个手写规格重新生成，
+# 所以不入库：否则每次改代码都会留下无法评审的数百 KB diff。
+# 注意：这里刻意不写 docs/*.png —— docs/screenshot.png 是 README 要用的
+# 真实截图，必须入库。
+docs/skill-monitor-flow.html
+docs/*.visual-check.*
+docs/taste-review.png

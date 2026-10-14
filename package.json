@@ -1,0 +1,48 @@
+{
+  "name": "@yyc-jnu/dsh-skill-invocation-monitor",
+  "version": "1.0.0",
+  "description": "Skill Invocation Monitor — a read-only DSH plugin that shows, live in the Web GUI sidebar, which Agents are running and which Skill each one is invoking, with status and elapsed time. / 只读技能调用监控：在侧边栏实时展示活动 Agent 正在调用的 Skill、状态与耗时。",
+  "type": "module",
+  "main": "lib/host/index.js",
+  "exports": {
+    ".": "./lib/host/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "test",
+    "docs/screenshot.png",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "verify": "node --check lib/host/index.js && node --check lib/host/tracker.js && node --check lib/client.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "skill",
+    "monitor",
+    "observability",
+    "read-only"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+# @yyc-jnu/dsh-skill-invocation-monitor bundle patch.
+#
+# Inserts one plugin row into a dsh profile roster. Both halves come from this
+# single row:
+#   - the Node half (exports ".") runs in the host process: it only OBSERVES
+#     tools/pre-execute, tools/result, session/event, agent/status and
+#     agent/disposed, and serves one read-only GET route for the browser half;
+#   - the browser half (exports "./client", declared by `dsh.client` in
+#     package.json) mounts the sidebar entry and its live panel.
+- insert:
+    - id: skill-invocation-monitor
+      name: '@yyc-jnu/dsh-skill-invocation-monitor'
